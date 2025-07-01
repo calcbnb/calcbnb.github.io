@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brick n Bolt Quote Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+    header, footer {
+      background-color: orange;
+      color: white;
+      padding: 10px 20px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+    }
+    header img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    header strong {
+      font-size: 20px;
+    }
+    footer {
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .form-section {
+      flex: 1;
+      min-width: 300px;
+    }
+    .form-section h2 {
+      margin-top: 0;
+      color: orange;
+    }
+    .card {
+      border: 2px solid orange;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #fffaf0;
+      min-width: 300px;
+      flex: 1;
+    }
+    .input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: orange;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+    .card p {
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="bb.png" alt="Logo">
+    <strong>Brick n Bolt</strong>
+  </header>
+
+  <div class="container">
+    <div class="form-section">
+      <label>Mode:
+        <select id="modeSelect" onchange="switchMode()">
+          <option value="auto">Auto Calculate</option>
+          <option value="direct">Direct Built-up Input</option>
+        </select>
+      </label>
+
+      <div id="autoForm">
+        <div class="input-row">
+          <div>
+            <label>Length</label>
+            <input type="number" id="length" />
+          </div>
+          <div>
+            <label>Breadth</label>
+            <input type="number" id="breadth" />
+          </div>
+        </div>
+        <label>Setback (%)</label>
+        <input type="number" id="setback" value="20" />
+        <label>Floors</label>
+        <input type="text" id="floorsAuto" />
+      </div>
+
+      <div id="directForm" class="hidden">
+        <label>Built-up Area</label>
+        <input type="number" id="builtUpDirect" />
+        <label>Setback (%)</label>
+        <input type="number" id="setbackDirect" value="20" />
+        <label>Floors</label>
+        <input type="text" id="floorsDirect" />
+      </div>
+
+      <button onclick="resetAll()">Reset</button>
+
+      <h3>Coustomer details </h3>
+      <label>Plot location</label>
+      <input type="text" id="plotlocation" />
+	<label>Decision Maker</label>
+      <input type="text" id="decisionMaker" />
+      <label>Start Date (Month)</label>
+      <select id="startDate">
+        <option value="">Select Month</option>
+        <option>January</option><option>February</option><option>March</option>
+        <option>April</option><option>May</option><option>June</option>
+        <option>July</option><option>August</option><option>September</option>
+        <option>October</option><option>November</option><option>December</option>
+      </select>
+      <label>Customer Budget</label>
+      <input type="text" id="cxBudget" />
+      <label>Plot Registration</label>
+      <input type="text" id="plotRegistration" />
+      <label>Khata</label>
+      <input type="text" id="khata" />
+<label>Purpose of Construction</label>
+      <input type="text" id="khata1" />
+<label>Project Type</label>
+      <input type="text" id="khata2" />
+<label>Meeting Location:-</label>
+      <input type="text" id="khata3" />
+<label>Meeting Type</label>
+      <input type="text" id="khata4" />
+<label>Languages</label>
+      <input type="text" id="khata5" />
+<label>Additional comments</label>
+      <input type="text" id="khata6" />
+    </div>
+
+    <div class="card" id="resultCard">
+      <h2>Final Price (@ ₹1900/sq.ft):</h2>
+	 <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
+      <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
+      <p><strong>Plot Area:</strong> <span id="plotArea">N/A</span> sq.ft</p>
+      <p><strong>Built-up Area:</strong> <span id="builtUpArea">0</span> sq.ft</p>
+      <p><strong>Total Built-up:</strong> <span id="totalBuiltUp">0</span> sq.ft</p>
+      <p><strong>Rough Quote:</strong> ₹<span id="roughQuote">0</span></p>
+      <p id="basementChargeLine"></p>
+      <p id="bumpUpLine"></p>
+      <p id="finalTotalLine"></p>
+      <hr>
+      <p><strong>Decision Maker:</strong> <span id="outDecisionMaker">-</span></p>
+      <p><strong>Start Date:</strong> <span id="outStartDate">-</span></p>
+      <p><strong>Budget:</strong> <span id="outCxBudget">-</span></p>
+      <p><strong>Registration:</strong> <span id="outPlotReg">-</span></p>
+      <p><strong>Khata:</strong> <span id="outKhata">-</span></p>
+ <p><strong>Purpose of Construction:</strong> <span id="outKhata1">-</span></p>
+ <p><strong>Project Type:</strong> <span id="outKhata2">-</span></p>
+ <p><strong>Meeting Location:</strong> <span id="outKhata3">-</span></p>
+ <p><strong>Meeting Type:</strong> <span id="outKhata4">-</span></p>
+ <p><strong>Language:</strong> <span id="outKhata5">-</span></p>
+ <p><strong>Additional Comments For auditors:</strong> <span id="outKhata6">-</span></p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Brick n Bolt
+  </footer>
+
+  <script>
+    function switchMode() {
+      const mode = document.getElementById("modeSelect").value;
+      document.getElementById("autoForm").classList.toggle("hidden", mode !== "auto");
+      document.getElementById("directForm").classList.toggle("hidden", mode !== "direct");
+      resetResult();
+      updateAll();
+    }
+
+    function parseFloorInput(floorStr) {
+      floorStr = floorStr.trim().toUpperCase();
+      let hasBasement = floorStr.includes("B+");
+      let numericPart = floorStr.replace("B+", "");
+      let floors = parseFloat(numericPart);
+      if (isNaN(floors)) floors = 0;
+      return { floors, hasBasement };
+    }
+
+    function updateAuto() {
+      const length = parseFloat(document.getElementById("length").value);
+      const breadth = parseFloat(document.getElementById("breadth").value);
+      const setback = parseFloat(document.getElementById("setback").value);
+      const floorStr = document.getElementById("floorsAuto").value;
+
+      if (isNaN(length) || isNaN(breadth) || isNaN(setback)) return resetResult();
+
+      const plotArea = length * breadth;
+      const builtUpArea = plotArea * ((100 - setback) / 100);
+
+      const { floors, hasBasement } = parseFloorInput(floorStr);
+      const totalBuiltUp = builtUpArea * floors;
+      const basementBuiltUp = hasBasement ? builtUpArea : 0;
+
+      const rough = totalBuiltUp * 1900; // no basement in rough
+      const basementPrice = basementBuiltUp * 2250;
+      const final = rough + basementPrice;
+      const bump = rough < 2500000 ? rough * 0.18 : 0;
+
+      updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice);
+    }
+
+    function updateDirect() {
+      const builtUpArea = parseFloat(document.getElementById("builtUpDirect").value);
+      const setback = parseFloat(document.getElementById("setbackDirect").value);
+      const floorStr = document.getElementById("floorsDirect").value;
+
+      if (isNaN(builtUpArea) || isNaN(setback)) return resetResult();
+
+      const adjustedBuiltUp = builtUpArea * ((100 - setback) / 100);
+
+      const { floors, hasBasement } = parseFloorInput(floorStr);
+      const totalBuiltUp = adjustedBuiltUp * floors;
+      const basementBuiltUp = hasBasement ? adjustedBuiltUp : 0;
+
+      const rough = totalBuiltUp * 1900;
+      const basementPrice = basementBuiltUp * 2250;
+      const final = rough + basementPrice;
+      const bump = final < 2500000 ? final* 0.18 : 0;
+
+      updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice);
+    }
+
+    function updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice) {
+      document.getElementById("plotArea").textContent = plotArea !== "N/A" ? parseFloat(plotArea).toFixed(2) : "N/A";
+      document.getElementById("builtUpArea").textContent = builtUpArea.toFixed(2);
+      document.getElementById("totalBuiltUp").textContent = totalBuiltUp.toFixed(2);
+      document.getElementById("roughQuote").textContent = Math.round(rough).toLocaleString();
+
+      document.getElementById("basementChargeLine").textContent = basementPrice > 0
+        ? `Basement Charge (₹2250/sq.ft): ₹${Math.round(basementPrice).toLocaleString()}`
+        : "";
+
+      document.getElementById("bumpUpLine").textContent = bump > 0
+        ? `Bump-up Charge (18%): ₹${Math.round(bump).toLocaleString()}`
+        : "";
+
+      document.getElementById("finalTotalLine").innerHTML =
+        `<strong>Total: ₹${Math.round(rough + bump + basementPrice).toLocaleString()}</strong>`;
+
+      document.getElementById("resultLength").textContent = length !== "-" ? length : "-";
+      document.getElementById("resultBreadth").textContent = breadth !== "-" ? breadth : "-";
+
+      updateCustomerInfo();
+    }
+
+    function updateCustomerInfo() {
+      document.getElementById("outplotlocation").textContent = document.getElementById("plotlocation").value || "-";
+      document.getElementById("outDecisionMaker").textContent = document.getElementById("decisionMaker").value || "-";
+      document.getElementById("outStartDate").textContent = document.getElementById("startDate").value || "-";
+      document.getElementById("outCxBudget").textContent = document.getElementById("cxBudget").value || "-";
+      document.getElementById("outPlotReg").textContent = document.getElementById("plotRegistration").value || "-";
+      document.getElementById("outKhata").textContent = document.getElementById("khata").value || "-";
+document.getElementById("outKhata1").textContent = document.getElementById("khata1").value || "-";
+document.getElementById("outKhata2").textContent = document.getElementById("khata2").value || "-";
+document.getElementById("outKhata3").textContent = document.getElementById("khata3").value || "-";
+document.getElementById("outKhata4").textContent = document.getElementById("khata4").value || "-";
+document.getElementById("outKhata5").textContent = document.getElementById("khata5").value || "-";
+document.getElementById("outKhata6").textContent = document.getElementById("khata6").value || "-";
+
+    }
+
+    function resetResult() {
+      document.getElementById("plotArea").textContent = "N/A";
+      document.getElementById("builtUpArea").textContent = "0";
+      document.getElementById("totalBuiltUp").textContent = "0";
+      document.getElementById("roughQuote").textContent = "0";
+      document.getElementById("basementChargeLine").textContent = "";
+      document.getElementById("bumpUpLine").textContent = "";
+      document.getElementById("finalTotalLine").innerHTML = "";
+      document.getElementById("resultLength").textContent = "-";
+      document.getElementById("resultBreadth").textContent = "-";
+      ["outplotlocation","outDecisionMaker", "outStartDate", "outCxBudget", "outPlotReg", "outKhata", "outKhata1", "outKhata2", "outKhata3", "outKhata4", "outKhata5", "outKhata6"].forEach(id => {
+        document.getElementById(id).textContent = "-";
+      });
+    }
+
+    function resetAll() {
+      [
+        "length", "breadth", "floorsAuto",
+        "builtUpDirect", "floorsDirect",
+        "decisionMaker",  "plotlocation", "startDate", "cxBudget", "plotRegistration", "khata"
+      ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+      document.getElementById("setback").value = 20;
+      document.getElementById("setbackDirect").value = 20;
+      resetResult();
+    }
+
+    function updateAll() {
+      const mode = document.getElementById("modeSelect").value;
+      if (mode === "auto") updateAuto();
+      else updateDirect();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("input, select").forEach(el => {
+        el.addEventListener("input", updateAll);
+        el.addEventListener("change", updateAll);
+      });
+      switchMode();
+    });
+  </script>
+</body>
+</html>
