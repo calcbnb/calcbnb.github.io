@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brick n Bolt Quote Calculator</title>
-<link rel="icon" href="bb.png" type="image/x-icon">
+  <link rel="icon" href="bb.png" type="image/x-icon">
   <style>
     body {
       margin: 0;
@@ -97,6 +97,21 @@
 
   <div class="container">
     <div class="form-section">
+
+      <!-- 💰 PRICE SETTINGS -->
+      <label>Price Mode:
+        <select id="priceMode" onchange="updateAll()">
+          <option value="1900">Standard - ₹1900/sq.ft</option>
+          <option value="1640">Economy - ₹1640/sq.ft</option>
+          <option value="custom">Custom</option>
+        </select>
+      </label>
+      <div id="customPriceDiv" class="hidden">
+        <label>Custom Price (₹/sq.ft):</label>
+        <input type="number" id="customPrice" value="1900" />
+      </div>
+
+      <!-- 🧮 MODE SELECT -->
       <label>Mode:
         <select id="modeSelect" onchange="switchMode()">
           <option value="auto">Auto Calculate</option>
@@ -104,6 +119,7 @@
         </select>
       </label>
 
+      <!-- 📐 AUTO MODE -->
       <div id="autoForm">
         <div class="input-row">
           <div>
@@ -121,6 +137,7 @@
         <input type="text" id="floorsAuto" />
       </div>
 
+      <!-- 🏗️ DIRECT MODE -->
       <div id="directForm" class="hidden">
         <label>Built-up Area</label>
         <input type="number" id="builtUpDirect" />
@@ -132,10 +149,9 @@
 
       <button onclick="resetAll()">Reset</button>
 
-      <h3>Customer details </h3>
-      <label>Plot location</label>
-      <input type="text" id="plotlocation" />
-	
+      <!-- 📋 CUSTOMER DETAILS -->
+      <h3>Customer details</h3>
+      <label>Plot location</label><input type="text" id="plotlocation" />
       <label>Start Date (Month)</label>
       <select id="startDate">
         <option value="">Select Month</option>
@@ -144,31 +160,22 @@
         <option>July</option><option>August</option><option>September</option>
         <option>October</option><option>November</option><option>December</option>
       </select>
-      <label>Customer Budget</label>
-      <input type="text" id="cxBudget" />
-      <label>Plot Registration</label>
-      <input type="text" id="plotRegistration" />
-      <label>Khata</label>
-      <input type="text" id="khata" />
-	    <label>Decision Maker</label>
-      <input type="text" id="decisionMaker" />
-<label>Purpose of Construction</label>
-      <input type="text" id="khata1" />
-<label>Project Type</label>
-      <input type="text" id="khata2" />
-<label>Meeting Location:-</label>
-      <input type="text" id="khata3" />
-<label>Meeting Type</label>
-      <input type="text" id="khata4" />
-<label>Languages</label>
-      <input type="text" id="khata5" />
-<label>Additional comments</label>
-      <input type="text" id="khata6" />
+      <label>Customer Budget</label><input type="text" id="cxBudget" />
+      <label>Plot Registration</label><input type="text" id="plotRegistration" />
+      <label>Khata</label><input type="text" id="khata" />
+      <label>Decision Maker</label><input type="text" id="decisionMaker" />
+      <label>Purpose of Construction</label><input type="text" id="khata1" />
+      <label>Project Type</label><input type="text" id="khata2" />
+      <label>Meeting Location:-</label><input type="text" id="khata3" />
+      <label>Meeting Type</label><input type="text" id="khata4" />
+      <label>Languages</label><input type="text" id="khata5" />
+      <label>Additional comments</label><input type="text" id="khata6" />
     </div>
 
+    <!-- 📊 RESULTS -->
     <div class="card" id="resultCard">
-      <h2>Final Price (@ ₹1900/sq.ft):</h2>
-	 <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
+      <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):</h2>
+      <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
       <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
       <p><strong>Plot Area:</strong> <span id="plotArea">N/A</span> sq.ft</p>
       <p><strong>Built-up Area:</strong> <span id="builtUpArea">0</span> sq.ft</p>
@@ -178,17 +185,17 @@
       <p id="bumpUpLine"></p>
       <p id="finalTotalLine"></p>
       <hr>
-	    <p><strong>Budget:</strong> <span id="outCxBudget">-</span></p>
+      <p><strong>Budget:</strong> <span id="outCxBudget">-</span></p>
       <p><strong>Start Date:</strong> <span id="outStartDate">-</span></p>
       <p><strong>Registration:</strong> <span id="outPlotReg">-</span></p>
       <p><strong>Khata:</strong> <span id="outKhata">-</span></p>
       <p><strong>Decision Maker:</strong> <span id="outDecisionMaker">-</span></p>
- <p><strong>Purpose of Construction:</strong> <span id="outKhata1">-</span></p>
- <p><strong>Project Type:</strong> <span id="outKhata2">-</span></p>
- <p><strong>Meeting Location:</strong> <span id="outKhata3">-</span></p>
- <p><strong>Meeting Type:</strong> <span id="outKhata4">-</span></p>
- <p><strong>Language:</strong> <span id="outKhata5">-</span></p>
- <p><strong>Additional Comments For auditors:</strong> <span id="outKhata6">-</span></p>
+      <p><strong>Purpose of Construction:</strong> <span id="outKhata1">-</span></p>
+      <p><strong>Project Type:</strong> <span id="outKhata2">-</span></p>
+      <p><strong>Meeting Location:</strong> <span id="outKhata3">-</span></p>
+      <p><strong>Meeting Type:</strong> <span id="outKhata4">-</span></p>
+      <p><strong>Language:</strong> <span id="outKhata5">-</span></p>
+      <p><strong>Additional Comments For auditors:</strong> <span id="outKhata6">-</span></p>
     </div>
   </div>
 
@@ -205,6 +212,15 @@
       updateAll();
     }
 
+    function getSelectedRate() {
+      const priceMode = document.getElementById("priceMode").value;
+      if (priceMode === "custom") {
+        const custom = parseFloat(document.getElementById("customPrice").value);
+        return isNaN(custom) || custom <= 0 ? 1900 : custom;
+      }
+      return parseFloat(priceMode);
+    }
+
     function parseFloorInput(floorStr) {
       floorStr = floorStr.trim().toUpperCase();
       let hasBasement = floorStr.includes("B+");
@@ -219,6 +235,7 @@
       const breadth = parseFloat(document.getElementById("breadth").value);
       const setback = parseFloat(document.getElementById("setback").value);
       const floorStr = document.getElementById("floorsAuto").value;
+      const rate = getSelectedRate();
 
       if (isNaN(length) || isNaN(breadth) || isNaN(setback)) return resetResult();
 
@@ -229,18 +246,19 @@
       const totalBuiltUp = builtUpArea * floors;
       const basementBuiltUp = hasBasement ? builtUpArea : 0;
 
-      const rough = totalBuiltUp * 1900; // no basement in rough
+      const rough = totalBuiltUp * rate;
       const basementPrice = basementBuiltUp * 2250;
       const final = rough + basementPrice;
       const bump = rough < 2500000 ? rough * 0.18 : 0;
 
-      updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice);
+      updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate);
     }
 
     function updateDirect() {
       const builtUpArea = parseFloat(document.getElementById("builtUpDirect").value);
       const setback = parseFloat(document.getElementById("setbackDirect").value);
       const floorStr = document.getElementById("floorsDirect").value;
+      const rate = getSelectedRate();
 
       if (isNaN(builtUpArea) || isNaN(setback)) return resetResult();
 
@@ -250,19 +268,20 @@
       const totalBuiltUp = adjustedBuiltUp * floors;
       const basementBuiltUp = hasBasement ? adjustedBuiltUp : 0;
 
-      const rough = totalBuiltUp * 1900;
+      const rough = totalBuiltUp * rate;
       const basementPrice = basementBuiltUp * 2250;
       const final = rough + basementPrice;
-      const bump = final < 2500000 ? final* 0.18 : 0;
+      const bump = final < 2500000 ? final * 0.18 : 0;
 
-      updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice);
+      updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice, rate);
     }
 
-    function updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice) {
+    function updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate) {
       document.getElementById("plotArea").textContent = plotArea !== "N/A" ? parseFloat(plotArea).toFixed(2) : "N/A";
       document.getElementById("builtUpArea").textContent = builtUpArea.toFixed(2);
       document.getElementById("totalBuiltUp").textContent = totalBuiltUp.toFixed(2);
       document.getElementById("roughQuote").textContent = Math.round(rough).toLocaleString();
+      document.getElementById("priceHeader").textContent = `Final Price (@ ₹${rate}/sq.ft):`;
 
       document.getElementById("basementChargeLine").textContent = basementPrice > 0
         ? `Basement Charge (₹2250/sq.ft): ₹${Math.round(basementPrice).toLocaleString()}`
@@ -282,19 +301,13 @@
     }
 
     function updateCustomerInfo() {
-      document.getElementById("outplotlocation").textContent = document.getElementById("plotlocation").value || "-";
-      document.getElementById("outDecisionMaker").textContent = document.getElementById("decisionMaker").value || "-";
-      document.getElementById("outStartDate").textContent = document.getElementById("startDate").value || "-";
-      document.getElementById("outCxBudget").textContent = document.getElementById("cxBudget").value || "-";
-      document.getElementById("outPlotReg").textContent = document.getElementById("plotRegistration").value || "-";
-      document.getElementById("outKhata").textContent = document.getElementById("khata").value || "-";
-document.getElementById("outKhata1").textContent = document.getElementById("khata1").value || "-";
-document.getElementById("outKhata2").textContent = document.getElementById("khata2").value || "-";
-document.getElementById("outKhata3").textContent = document.getElementById("khata3").value || "-";
-document.getElementById("outKhata4").textContent = document.getElementById("khata4").value || "-";
-document.getElementById("outKhata5").textContent = document.getElementById("khata5").value || "-";
-document.getElementById("outKhata6").textContent = document.getElementById("khata6").value || "-";
-
+      [
+        "plotlocation", "decisionMaker", "startDate", "cxBudget", "plotRegistration",
+        "khata", "khata1", "khata2", "khata3", "khata4", "khata5", "khata6"
+      ].forEach(key => {
+        document.getElementById(`out${key.charAt(0).toUpperCase() + key.slice(1)}`).textContent =
+          document.getElementById(key).value || "-";
+      });
     }
 
     function resetResult() {
@@ -307,6 +320,7 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
       document.getElementById("finalTotalLine").innerHTML = "";
       document.getElementById("resultLength").textContent = "-";
       document.getElementById("resultBreadth").textContent = "-";
+      document.getElementById("priceHeader").textContent = "Final Price (@ ₹1900/sq.ft):";
       ["outplotlocation","outDecisionMaker", "outStartDate", "outCxBudget", "outPlotReg", "outKhata", "outKhata1", "outKhata2", "outKhata3", "outKhata4", "outKhata5", "outKhata6"].forEach(id => {
         document.getElementById(id).textContent = "-";
       });
@@ -314,19 +328,25 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
 
     function resetAll() {
       [
-        "length", "breadth", "floorsAuto",
-        "builtUpDirect", "floorsDirect",
-        "decisionMaker",  "plotlocation", "startDate", "cxBudget", "plotRegistration", "khata"
+        "length", "breadth", "floorsAuto", "builtUpDirect", "floorsDirect",
+        "decisionMaker", "plotlocation", "startDate", "cxBudget", "plotRegistration", "khata",
+        "khata1", "khata2", "khata3", "khata4", "khata5", "khata6"
       ].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = "";
       });
       document.getElementById("setback").value = 20;
       document.getElementById("setbackDirect").value = 20;
+      document.getElementById("priceMode").value = "1900";
+      document.getElementById("customPrice").value = 1900;
+      document.getElementById("customPriceDiv").classList.add("hidden");
       resetResult();
     }
 
     function updateAll() {
+      const priceMode = document.getElementById("priceMode").value;
+      document.getElementById("customPriceDiv").classList.toggle("hidden", priceMode !== "custom");
+
       const mode = document.getElementById("modeSelect").value;
       if (mode === "auto") updateAuto();
       else updateDirect();
