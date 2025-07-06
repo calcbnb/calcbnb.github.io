@@ -301,13 +301,20 @@
     }
 
     function updateCustomerInfo() {
-      [
-        "plotlocation", "decisionMaker", "startDate", "cxBudget", "plotRegistration",
-        "khata", "khata1", "khata2", "khata3", "khata4", "khata5", "khata6"
-      ].forEach(key => {
-        document.getElementById(`out${key.charAt(0).toUpperCase() + key.slice(1)}`).textContent =
-          document.getElementById(key).value || "-";
-      });
+     document.getElementById("outplotlocation").textContent = document.getElementById("plotlocation").value || "-";
+      document.getElementById("outDecisionMaker").textContent = document.getElementById("decisionMaker").value || "-";
+      document.getElementById("outStartDate").textContent = document.getElementById("startDate").value || "-";
+      document.getElementById("outCxBudget").textContent = document.getElementById("cxBudget").value || "-";
+      document.getElementById("outPlotReg").textContent = document.getElementById("plotRegistration").value || "-";
+      document.getElementById("outKhata").textContent = document.getElementById("khata").value || "-";
+document.getElementById("outKhata1").textContent = document.getElementById("khata1").value || "-";
+document.getElementById("outKhata2").textContent = document.getElementById("khata2").value || "-";
+document.getElementById("outKhata3").textContent = document.getElementById("khata3").value || "-";
+document.getElementById("outKhata4").textContent = document.getElementById("khata4").value || "-";
+document.getElementById("outKhata5").textContent = document.getElementById("khata5").value || "-";
+document.getElementById("outKhata6").textContent = document.getElementById("khata6").value || "-";
+
+   
     }
 
     function resetResult() {
