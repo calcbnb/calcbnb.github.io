@@ -469,13 +469,12 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
 
   const rate = isCustom ? (isNaN(customPrice) || customPrice <= 0 ? 1900 : customPrice) : parseFloat(priceMode);
 
-  // ✅ Always update the price header
+  
   document.getElementById("priceHeader").textContent = `Final Price (@ ₹${rate}/sq.ft):`;
 
-  // Toggle custom price input visibility
+  
   document.getElementById("customPriceDiv").classList.toggle("hidden", !isCustom);
 
-  // Try to calculate values only if fields are filled
   const mode = document.getElementById("modeSelect").value;
   if (mode === "auto") {
     const length = parseFloat(document.getElementById("length").value);
