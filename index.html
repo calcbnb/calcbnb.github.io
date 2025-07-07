@@ -1,10 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brick n Bolt Quote Calculator</title>
-  <link rel="icon" href="bb.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<link rel="icon" href="bb.png"  type="image/x-icon" >
   <style>
     body {
       margin: 0;
@@ -42,7 +45,7 @@
       min-width: 300px;
     }
     .form-section h2 {
-      margin-top: 0;
+      margin-top: 20px;
       color: orange;
     }
     .card {
@@ -87,18 +90,73 @@
     .card p {
       margin: 8px 0;
     }
+    .sidebar {
+      position: fixed;
+  top: 60px;
+  right: -300px; /* hidden off-screen */
+  
+  width: 250px;
+  background: orange;
+  color: white;
+  padding: 40px 20px;
+  z-index: 999;
+  transition: right 0.3s ease;
+  border-radius: 25px 0 0 25px;
+}
+	
+    
+     .sidebar.active {
+      right: 0;
+    }
+    
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      padding: 10px 0;
+      text-decoration: none;
+      border-bottom: 1px solid #444;
+    }
+
+    .sidebar a:hover {
+      background-color: #333;
+    }
+
+    
+    .toggle-btn i {
+      pointer-events: none;
+    }
+
+    .toggle-btn {
+     background: #ff6600;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px; 
+  position: absolute;
+  right: 20px;
+  top: 0px;
+  
+
+}
   </style>
 </head>
 <body>
   <header>
-    <img src="bb.png" alt="Logo">
+    <img src="bb.png" alt="Logo" style="border-radius: 50px;">
     <strong>Brick n Bolt</strong>
+     <button class="toggle-btn" onclick="toggleSidebar()"   >  <i class="fas fa-cog"></i></button>
+
+  
   </header>
-
-  <div class="container">
-    <div class="form-section">
-
-      <!-- 💰 PRICE SETTINGS -->
+  <div class="sidebar" id="sidebar"  >
+  
       <label>Price Mode:
         <select id="priceMode" onchange="updateAll()">
           <option value="1900">Residential - ₹1900/sq.ft</option>
@@ -110,8 +168,15 @@
         <label>Custom Price (₹/sq.ft):</label>
         <input type="number" id="customPrice" value="1900" />
       </div>
+  </div>
+   
+  <div class="container">
+ 
+    <div class="form-section">
 
-      <!-- 🧮 MODE SELECT -->
+      
+
+      
       <label>Mode:
         <select id="modeSelect" onchange="switchMode()">
           <option value="auto">Auto Calculate</option>
@@ -119,7 +184,7 @@
         </select>
       </label>
 
-      <!-- 📐 AUTO MODE -->
+      
       <div id="autoForm">
         <div class="input-row">
           <div>
@@ -137,7 +202,7 @@
         <input type="text" id="floorsAuto" />
       </div>
 
-      <!-- 🏗️ DIRECT MODE -->
+   
       <div id="directForm" class="hidden">
         <label>Built-up Area</label>
         <input type="number" id="builtUpDirect" />
@@ -149,10 +214,15 @@
 
       <button onclick="resetAll()">Reset</button>
 
-      <!-- 📋 CUSTOMER DETAILS -->
+      
       <h3>Customer details</h3>
-      <label>Plot location</label><input type="text" id="plotlocation" />
-      <label>Start Date (Month)</label>
+      <label>Plot location</label><input type="text" id="plotlocation" /> 
+      <label>Customer Budget</label><input type="text" id="cxBudget" />
+      <div class="input-row">
+      <label>Plot Registration</label><input type="text" id="plotRegistration" />
+      <label>Khata</label><input type="text" id="khata" /></div>
+      <label>Decision Maker</label><input type="text" id="decisionMaker" />
+     <label>Start Date (Month)</label>
       <select id="startDate">
         <option value="">Select Month</option>
         <option>January</option><option>February</option><option>March</option>
@@ -160,20 +230,34 @@
         <option>July</option><option>August</option><option>September</option>
         <option>October</option><option>November</option><option>December</option>
       </select>
-      <label>Customer Budget</label><input type="text" id="cxBudget" />
-      <label>Plot Registration</label><input type="text" id="plotRegistration" />
-      <label>Khata</label><input type="text" id="khata" />
-      <label>Decision Maker</label><input type="text" id="decisionMaker" />
-      <label>Purpose of Construction</label><input type="text" id="khata1" />
-      <label>Project Type</label><input type="text" id="khata2" />
-      <label>Meeting Location:-</label><input type="text" id="khata3" />
-      <label>Meeting Type</label><input type="text" id="khata4" />
-      <label>Languages</label><input type="text" id="khata5" />
+
+     
+      <div class="input-row">
+      <select id="khata1">
+        <option value="">Purpose of Construction</option>
+        <option>self</option><option>rental</option><option>self+rental</option>
+        </select>   <select id="khata2">
+        <option value=""> <strong>Project Type</strong></option>
+        <option>New</option><option>Demolation + New</option>
+        </select> </div>
+      <div class="input-row">
+      <select id="khata3">
+        <option value="">Meeting Location</option>
+        <option>BNB office</option><option>CX Location</option>
+        </select> 
+      <select id="khata4">
+        <option value="">Meeting Type</option>
+        <option>Type A</option><option>Type B</option><option>Type C </option>
+        </select> 
+         <label>Languages</label><input type="text" id="khata5" />
+      </div>
       <label>Additional comments</label><input type="text" id="khata6" />
+      
     </div>
 
-    <!-- 📊 RESULTS -->
+    
     <div class="card" id="resultCard">
+      <h5>To change price go to setting  <i class="fas fa-cog"></i> </h5>
       <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):</h2>
       <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
       <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
@@ -186,10 +270,10 @@
       <p id="finalTotalLine"></p>
       <hr>
       <p><strong>Budget:</strong> <span id="outCxBudget">-</span></p>
-      <p><strong>Start Date:</strong> <span id="outStartDate">-</span></p>
       <p><strong>Registration:</strong> <span id="outPlotReg">-</span></p>
       <p><strong>Khata:</strong> <span id="outKhata">-</span></p>
       <p><strong>Decision Maker:</strong> <span id="outDecisionMaker">-</span></p>
+      <p><strong>Start Date:</strong> <span id="outStartDate">-</span></p>
       <p><strong>Purpose of Construction:</strong> <span id="outKhata1">-</span></p>
       <p><strong>Project Type:</strong> <span id="outKhata2">-</span></p>
       <p><strong>Meeting Location:</strong> <span id="outKhata3">-</span></p>
@@ -291,8 +375,9 @@
         ? `Bump-up Charge (18%): ₹${Math.round(bump).toLocaleString()}`
         : "";
 
-      document.getElementById("finalTotalLine").innerHTML =
-        `<strong>Total: ₹${Math.round(rough + bump + basementPrice).toLocaleString()}</strong>`;
+     const finalTotal = Math.round(rough + bump + basementPrice);
+document.getElementById("finalTotalLine").innerHTML =
+  `<strong>Total: ₹${finalTotal.toLocaleString("en-IN")} (${numberToIndianWords(finalTotal)})</strong>`;
 
       document.getElementById("resultLength").textContent = length !== "-" ? length : "-";
       document.getElementById("resultBreadth").textContent = breadth !== "-" ? breadth : "-";
@@ -351,13 +436,39 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
     }
 
     function updateAll() {
-      const priceMode = document.getElementById("priceMode").value;
-      document.getElementById("customPriceDiv").classList.toggle("hidden", priceMode !== "custom");
+  const priceMode = document.getElementById("priceMode").value;
+  const customPrice = parseFloat(document.getElementById("customPrice").value);
+  const isCustom = priceMode === "custom";
 
-      const mode = document.getElementById("modeSelect").value;
-      if (mode === "auto") updateAuto();
-      else updateDirect();
+  const rate = isCustom ? (isNaN(customPrice) || customPrice <= 0 ? 1900 : customPrice) : parseFloat(priceMode);
+
+  // ✅ Always update the price header
+  document.getElementById("priceHeader").textContent = `Final Price (@ ₹${rate}/sq.ft):`;
+
+  // Toggle custom price input visibility
+  document.getElementById("customPriceDiv").classList.toggle("hidden", !isCustom);
+
+  // Try to calculate values only if fields are filled
+  const mode = document.getElementById("modeSelect").value;
+  if (mode === "auto") {
+    const length = parseFloat(document.getElementById("length").value);
+    const breadth = parseFloat(document.getElementById("breadth").value);
+    const setback = parseFloat(document.getElementById("setback").value);
+    const floorStr = document.getElementById("floorsAuto").value;
+    if (!isNaN(length) && !isNaN(breadth) && !isNaN(setback) && floorStr.trim() !== "") {
+      updateAuto();
     }
+  } else {
+    const builtUpArea = parseFloat(document.getElementById("builtUpDirect").value);
+    const setback = parseFloat(document.getElementById("setbackDirect").value);
+    const floorStr = document.getElementById("floorsDirect").value;
+    if (!isNaN(builtUpArea) && !isNaN(setback) && floorStr.trim() !== "") {
+      updateDirect();
+    }
+  }
+}
+
+
 
     window.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll("input, select").forEach(el => {
@@ -365,7 +476,38 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
         el.addEventListener("change", updateAll);
       });
       switchMode();
+       document.getElementById("customPrice").addEventListener("input", updateAll);
+
     });
+   function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+   
+    }
+    function numberToIndianWords(num) {
+  const a = [
+    "", "One", "Two", "Three", "Four", "Five", "Six",
+    "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+    "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+  ];
+  const b = [
+    "", "", "Twenty", "Thirty", "Forty", "Fifty",
+    "Sixty", "Seventy", "Eighty", "Ninety"
+  ];
+
+  if ((num = num.toString()).length > 9) return "Overflow";
+
+  const n = ("000000000" + num).substr(-9).match(/.{1,2}/g);
+  const str = [
+    n[0] != 0 ? (a[+n[0]] || b[n[0][0]] + " " + a[n[0][1]]) + " Crore " : "",
+    n[1] != 0 ? (a[+n[1]] || b[n[1][0]] + " " + a[n[1][1]]) + " Lakh " : "",
+    n[2] != 0 ? (a[+n[2]] || b[n[2][0]] + " " + a[n[2][1]]) + " Thousand " : "",
+    n[3] != 0 ? (a[+n[3]] || b[n[3][0]] + " " + a[n[3][1]]) + " Hundred " : "",
+    n[4] != 0 ? ((str != "") ? "and " : "") + (a[+n[4]] || b[n[4][0]] + " " + a[n[4][1]]) + " " : ""
+  ].join("").trim();
+
+  return str + "Only";
+}
+
   </script>
 </body>
 </html>
