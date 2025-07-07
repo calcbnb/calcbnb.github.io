@@ -145,6 +145,29 @@
   
 
 }
+ #result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #loader {
+      display: inline-block;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #555;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #suggestion {
+      margin-top: 6px;
+      color: #777;
+    }
   </style>
 </head>
 <body>
@@ -216,7 +239,11 @@
 
       
       <h3>Customer details</h3>
-      <label>Plot location</label><input type="text" id="plotlocation" /> 
+      <label>Plot location</label><input type="text" id="plotlocation" placeholder="Enter 6-digit Pincode" maxlength="6" /> 
+      <button id="checkBtn" onclick="checkPincode()" disabled>Check</button>
+       <span id="loader"></span>
+       <div id="result"></div>
+       <div id="suggestion"></div>
       <label>Customer Budget</label><input type="text" id="cxBudget" />
       <div class="input-row">
       <label>Plot Registration</label><input type="text" id="plotRegistration" />
@@ -288,7 +315,7 @@
   </footer>
 
   <script>
-    function switchMode() {
+   function switchMode() {
       const mode = document.getElementById("modeSelect").value;
       document.getElementById("autoForm").classList.toggle("hidden", mode !== "auto");
       document.getElementById("directForm").classList.toggle("hidden", mode !== "direct");
@@ -507,7 +534,27 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
 
   return str + "Only";
 }
+  let availablePincodes = [];
 
+  window.onload = () => {
+    fetch('pincodes.json')
+      .then(res => res.json())
+      .then(data => {
+        availablePincodes = data;
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('checkBtn').disabled = false;
+      });
+  };
+
+  function checkPincode() {
+    const pincode = document.getElementById('plotlocation').value.trim();
+    const result = document.getElementById('result');
+    if (availablePincodes.includes(pincode)) {
+      result.innerText = "✅ Servicable";
+    } else {
+      result.innerText = "❌ Not Servicable";
+    }
+  }
   </script>
 </body>
 </html>
