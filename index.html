@@ -359,8 +359,12 @@
       const rough = totalBuiltUp * rate;
       const basementPrice = basementBuiltUp * 2250;
       const final = rough + basementPrice;
-      const bump = rough < 2500000 ? rough * 0.18 : 0;
-
+       if( rate==1900){
+      const bump = totalBuiltUp <= 1500 ? rough * 0.12 : 0;
+	    } else{
+const bump = totalBuiltUp <= 1500 ? rough * 0.18 : 0;
+      updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice, rate);
+    }
       updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate);
     }
 
@@ -381,9 +385,14 @@
       const rough = totalBuiltUp * rate;
       const basementPrice = basementBuiltUp * 2250;
       const final = rough + basementPrice;
+	    if( rate==1900){
       const bump = totalBuiltUp <= 1500 ? rough * 0.12 : 0;
+	    } else{
+const bump = totalBuiltUp <= 1500 ? rough * 0.18 : 0;
       updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice, rate);
     }
+    }
+	    
 
     function updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate) {
       document.getElementById("plotArea").textContent = plotArea !== "N/A" ? parseFloat(plotArea).toFixed(2) : "N/A";
@@ -395,10 +404,14 @@
       document.getElementById("basementChargeLine").textContent = basementPrice > 0
         ? `Basement Charge (₹2250/sq.ft): ₹${Math.round(basementPrice).toLocaleString()}`
         : "";
-
+ if( rate==1900){
       document.getElementById("bumpUpLine").textContent = bump > 0
         ? `Bump-up Charge (12%): ₹${Math.round(bump).toLocaleString()}`
-        : "";
+        : "";    } else{
+ document.getElementById("bumpUpLine").textContent = bump > 0
+        ? `Bump-up Charge (18%): ₹${Math.round(bump).toLocaleString()}`
+        : "";  }
+     
 
      const finalTotal = Math.round(rough + bump + basementPrice);
 document.getElementById("finalTotalLine").innerHTML =
