@@ -381,8 +381,7 @@
       const rough = totalBuiltUp * rate;
       const basementPrice = basementBuiltUp * 2250;
       const final = rough + basementPrice;
-      const bump = final < 2500000 ? final * 0.18 : 0;
-
+      const bump = totalBuiltUp <= 1500 ? rough * 0.12 : 0;
       updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice, rate);
     }
 
@@ -398,7 +397,7 @@
         : "";
 
       document.getElementById("bumpUpLine").textContent = bump > 0
-        ? `Bump-up Charge (18%): ₹${Math.round(bump).toLocaleString()}`
+        ? `Bump-up Charge (12%): ₹${Math.round(bump).toLocaleString()}`
         : "";
 
      const finalTotal = Math.round(rough + bump + basementPrice);
