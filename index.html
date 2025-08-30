@@ -289,6 +289,7 @@
       <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
       <p><strong>Plot Area:</strong> <span id="plotArea">N/A</span> sq.ft</p>
       <p><strong>Built-up Area:</strong> <span id="builtUpArea">0</span> sq.ft</p>
+		<p><strong>Floors:</strong> <span id="outFloors">-</span></p>
       <p><strong>Total Built-up:</strong> <span id="totalBuiltUp">0</span> sq.ft</p>
       <p><strong>Rough Quote:</strong> ₹<span id="roughQuote">0</span></p>
       <p id="basementChargeLine"></p>
@@ -363,7 +364,7 @@
       const bump = totalBuiltUp <= 1500 ? rough * (rate === 1900 ? 0.12 : 0.18)
   : 0;
 	  
-      updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate);
+      updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate, floors);
     }
 
     function updateDirect() {
@@ -387,15 +388,16 @@
       const bump = totalBuiltUp <= 1500 ? rough  *(rate === 1900 ? 0.12 : 0.18)
   : 0;
 	   
-      updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice, rate);
+      updateCard("-", "-", "N/A", adjustedBuiltUp, totalBuiltUp, rough, bump, basementPrice, rate, floors);
     
     }
 	    
 
-    function updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate) {
+    function updateCard(length, breadth, plotArea, builtUpArea, totalBuiltUp, rough, bump, basementPrice, rate, floors) {
       document.getElementById("plotArea").textContent = plotArea !== "N/A" ? parseFloat(plotArea).toFixed(2) : "N/A";
       document.getElementById("builtUpArea").textContent = builtUpArea.toFixed(2);
-	  
+	  document.getElementById("outFloors").textContent = floors || "-";
+
       document.getElementById("totalBuiltUp").textContent = totalBuiltUp.toFixed(2);
       document.getElementById("roughQuote").textContent = Math.round(rough).toLocaleString();
       document.getElementById("priceHeader").textContent = `Final Price (@ ₹${rate}/sq.ft):`;
@@ -441,6 +443,8 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
     function resetResult() {
       document.getElementById("plotArea").textContent = "N/A";
       document.getElementById("builtUpArea").textContent = "0";
+		document.getElementById("outFloors").textContent = "-";
+
       document.getElementById("totalBuiltUp").textContent = "0";
       document.getElementById("roughQuote").textContent = "0";
       document.getElementById("basementChargeLine").textContent = "";
@@ -566,5 +570,6 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   </script>
 </body>
 </html>
+
 
 
