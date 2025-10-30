@@ -588,28 +588,49 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   }
 	function copyCard() {
   const card = document.getElementById("resultCard");
+  const icon = document.getElementById("copyBtn");
   let text = "";
   let startCopy = false;
 
-  // Loop through all elements inside the card
-  card.querySelectorAll("p, h2, h5, strong, span").forEach(el => {
+  // Collect visible content from Plot location onward
+  card.querySelectorAll("p, h5, h4, h3").forEach((el) => {
+    const style = window.getComputedStyle(el);
+    if (style.display === "none" || style.visibility === "hidden") return;
+
     const line = el.innerText.trim();
-
-    // Start copying once "Plot location:" is found
     if (line.startsWith("Plot location:")) startCopy = true;
-
     if (startCopy && line) text += line + "\n";
   });
 
-  // Clean up extra spaces/newlines
-  text = text.replace(/\n{2,}/g, "\n").trim();
+  // Remove duplicates
+  const uniqueLines = [];
+  text.split("\n").forEach((line) => {
+    if (line && !uniqueLines.includes(line.trim())) {
+      uniqueLines.push(line.trim());
+    }
+  });
+
+  
+  uniqueLines.forEach((line) => {
+    const parts = line.split(":");
+    if (parts.length > 1) {
+      const label = parts[0].trim();
+      const value = parts.slice(1).join(":").trim();
+      formatted += `• *${label}:* ${value}\n`;
+    } else {
+      formatted += `• ${line}\n`;
+    }
+  });
+
+  formatted = formatted.trim();
 
   // Copy to clipboard
-  navigator.clipboard.writeText(text).then(() => {
-    const icon = document.querySelector(".copy-icon");
+  navigator.clipboard.writeText(formatted).then(() => {
+    // Change icon to checkmark
     icon.classList.replace("fa-copy", "fa-check");
     icon.style.color = "green";
 
+    // Revert back after 1.5s
     setTimeout(() => {
       icon.classList.replace("fa-check", "fa-copy");
       icon.style.color = "orange";
@@ -617,9 +638,11 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   });
 }
 
+
   </script>
 </body>
 </html>
+
 
 
 
