@@ -185,6 +185,18 @@
       margin-top: 6px;
       color: #777;
     }
+	  .copy-icon {
+  margin-left: 8px;
+  color: orange;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s ease;
+}
+.copy-icon:hover {
+  color: darkorange;
+  transform: scale(1.2);
+}
+
   </style>
 </head>
 <body>
@@ -302,11 +314,9 @@
     <div class="card" id="resultCard">
 		
       <h5>To change price go to setting  <i class="fas fa-cog"></i> </h5>
-		<div class="copy-btn" onclick="copyCard()">
-  <i class="fa fa-copy"></i>
-</div>
+		
 
-      <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):</h2>
+      <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):  <i class="fa fa-copy copy-icon" onclick="copyCard()"></i></h2>
       <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
       <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
       <p><strong>Plot Area:</strong> <span id="plotArea">N/A</span> sq.ft</p>
@@ -589,27 +599,33 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
       result.innerText = "❌ Not Servicable";
     }
   }
-	  function copyCard() {
+	function copyCard() {
   const card = document.getElementById("resultCard");
   let text = "";
+  let startCopy = false;
 
-  // Collect all text content without extra whitespace
+  // Loop through all elements inside the card
   card.querySelectorAll("p, h2, h5, strong, span").forEach(el => {
-    let line = el.innerText.trim();
-    if (line) text += line + "\n";
+    const line = el.innerText.trim();
+
+    // Start copying once "Plot location:" is found
+    if (line.startsWith("Plot location:")) startCopy = true;
+
+    if (startCopy && line) text += line + "\n";
   });
 
-  // Remove multiple blank lines & trim
+  // Clean up extra spaces/newlines
   text = text.replace(/\n{2,}/g, "\n").trim();
 
+  // Copy to clipboard
   navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector(".copy-btn i");
-    btn.classList.replace("fa-copy", "fa-check");
-    btn.style.color = "limegreen";
+    const icon = document.querySelector(".copy-icon");
+    icon.classList.replace("fa-copy", "fa-check");
+    icon.style.color = "green";
 
     setTimeout(() => {
-      btn.classList.replace("fa-check", "fa-copy");
-      btn.style.color = "white";
+      icon.classList.replace("fa-check", "fa-copy");
+      icon.style.color = "orange";
     }, 1500);
   });
 }
@@ -617,6 +633,7 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   </script>
 </body>
 </html>
+
 
 
 
