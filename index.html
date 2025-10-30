@@ -9,6 +9,23 @@
 
 <link rel="icon" href="bb.png"  type="image/x-icon" >
   <style>
+	  .copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: orange;
+  color: white;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+.copy-btn:hover {
+  background: darkorange;
+  transform: scale(1.1);
+}
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -283,7 +300,12 @@
 
     
     <div class="card" id="resultCard">
+		
       <h5>To change price go to setting  <i class="fas fa-cog"></i> </h5>
+		<div class="copy-btn" onclick="copyCard()">
+  <i class="fa fa-copy"></i>
+</div>
+
       <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):</h2>
       <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
       <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
@@ -567,9 +589,35 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
       result.innerText = "❌ Not Servicable";
     }
   }
+	  function copyCard() {
+  const card = document.getElementById("resultCard");
+  let text = "";
+
+  // Collect all text content without extra whitespace
+  card.querySelectorAll("p, h2, h5, strong, span").forEach(el => {
+    let line = el.innerText.trim();
+    if (line) text += line + "\n";
+  });
+
+  // Remove multiple blank lines & trim
+  text = text.replace(/\n{2,}/g, "\n").trim();
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector(".copy-btn i");
+    btn.classList.replace("fa-copy", "fa-check");
+    btn.style.color = "limegreen";
+
+    setTimeout(() => {
+      btn.classList.replace("fa-check", "fa-copy");
+      btn.style.color = "white";
+    }, 1500);
+  });
+}
+
   </script>
 </body>
 </html>
+
 
 
 
