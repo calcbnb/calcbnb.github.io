@@ -300,7 +300,7 @@
 		
       <h5>To change price go to setting  </h5>
 		
-<div class="copy-btn" onclick="copyCard()">
+<div class="copyBtn" onclick="copyCard()">
   <i class="fa fa-copy"></i>
 </div>
       <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):  </span></h2>
@@ -610,7 +610,8 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
     }
   });
 
-  
+  // Format text for WhatsApp/email (no heading)
+  let formatted = "";
   uniqueLines.forEach((line) => {
     const parts = line.split(":");
     if (parts.length > 1) {
@@ -638,10 +639,13 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   });
 }
 
+ 
+
 
   </script>
 </body>
 </html>
+
 
 
 
