@@ -298,10 +298,12 @@
     
     <div class="card" id="resultCard">
 		
-      <h5>To change price go to setting  <i class="fas fa-cog"></i> </h5>
+      <h5>To change price go to setting  </h5>
 		
-
-      <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):   <span class="copy-icon" onclick="copyCard()">📋</span></h2>
+<div class="copy-btn" onclick="copyCard()">
+  <i class="fa fa-copy"></i>
+</div>
+      <h2 id="priceHeader">Final Price (@ ₹1900/sq.ft):  </span></h2>
       <p><strong>Plot location:</strong> <span id="outplotlocation">-</span></p>
       <p><strong>Plot Size:</strong> <span id="resultLength">-</span> x <span id="resultBreadth">-</span></p>
       <p><strong>Plot Area:</strong> <span id="plotArea">N/A</span> sq.ft</p>
@@ -618,6 +620,7 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   </script>
 </body>
 </html>
+
 
 
 
