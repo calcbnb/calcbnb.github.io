@@ -85,28 +85,31 @@
       border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
-		 cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+		cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 5px 15px rgba(255,107,107,0.4);
     }
 	  button:hover{
 		  color:black;
 	  }
-	button:active {
-  transform: translateY(2px) scale(0.98);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 2px 4px rgba(0,0,0,0.2);
-  background: linear-gradient(145deg, #45a049, #3d8b40);
+	button:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.1);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.1s ease;
 }
-button:before{
-  font-family: 'FontAwesome';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  position: relative;
-  -webkit-font-smoothing: antialiased;
+	button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 5px rgba(255,107,107,0.3);
+}
+button:active::before {
+  opacity: 1;
 }
     .hidden {
       display: none;
@@ -667,6 +670,7 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   </script>
 </body>
 </html>
+
 
 
 
