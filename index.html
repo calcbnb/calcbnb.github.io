@@ -85,7 +85,27 @@
       border-radius: 8px;
       cursor: pointer;
       margin-top: 10px;
+		
     }
+	.button:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+	  .button:before{
+  font-family: 'FontAwesome';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
     .hidden {
       display: none;
     }
@@ -645,6 +665,7 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   </script>
 </body>
 </html>
+
 
 
 
