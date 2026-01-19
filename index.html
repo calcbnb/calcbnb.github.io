@@ -640,17 +640,24 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   formatted = formatted.trim();
 
   // Copy to clipboard
-  navigator.clipboard.writeText(formatted).then(() => {
-    // Change icon to checkmark
-    icon.classList.replace("fa-copy", "fa-check");
-    icon.style.color = "green";
+ navigator.clipboard.writeText(formatted).then(() => {
+  // Safely change icon to checkmark
+  icon.classList.remove("fa-copy");
+  icon.classList.add("fa-check");
+  icon.style.color = "green";
 
-    // Revert back after 1.5s
-    setTimeout(() => {
-      icon.classList.replace("fa-check", "fa-copy");
-      icon.style.color = "orange";
-    }, 1500);
-  });
+  // Revert back after 1.5s
+  setTimeout(() => {
+    icon.classList.remove("fa-check");
+    icon.classList.add("fa-copy");
+    icon.style.color = "orange";
+  }, 1500);
+}).catch((err) => {
+  console.error('Copy failed:', err);
+  // Optional: Show error state
+  icon.style.color = "red";
+});
+
 }
 
  
@@ -659,6 +666,7 @@ document.getElementById("outKhata6").textContent = document.getElementById("khat
   </script>
 </body>
 </html>
+
 
 
 
